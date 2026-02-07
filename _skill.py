@@ -5,12 +5,25 @@ import dotenv
 dotenv.load_dotenv()
 
 
-def create_marketplace(site_name:str, site_description: str, business_id: str):
+THEME_COLOR_SCHEMES = {
+    "modern": '["#000000", "#ffffff", "#f4f4f5"]',
+    "elegant": '["#1a1a1a", "#fdfcf9", "#e5e7eb"]',
+    "techy": '["#0f172a", "#3b82f6", "#1e293b"]',
+    "playful": '["#f43f5e", "#fef2f2", "#fb7185"]',
+}
+
+
+def create_marketplace(title: str, description: str, business_id: str = None, theme: str = None, color_scheme: str = None):
     try:
+        if theme and not color_scheme:
+            color_scheme = THEME_COLOR_SCHEMES.get(theme)
+
         payload = {
-            "title": site_name,
-            "description": site_description,
-            "business_id": business_id
+            "title": title,
+            "description": description,
+            "business_id": business_id,
+            "theme": theme,
+            "colorScheme": color_scheme
         }
 
         headers = {"content-type": "application/json"}
@@ -24,5 +37,5 @@ def create_marketplace(site_name:str, site_description: str, business_id: str):
         if response.ok:
             return {"success": True, "response": "Website will be generated shortly", "site_id": res['data']['site_id']}
     except Exception as e:
-        print("Error generating image:", e)
+        print("Error generating site:", e)
         return {"success": False, "response": str(e)}

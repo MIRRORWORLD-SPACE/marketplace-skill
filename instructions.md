@@ -41,45 +41,67 @@ To get an effective result, don't just provide minimal details. Use the CORE fra
         - Instruction: "Link to business ID 'ABC123' for automatic product import from Shopify."
 
 
+3.  Choose a Theme (Optional)
+    You can specify a theme and a corresponding color scheme to customize the look and feel of the site.
+
+    | Theme ID | Name              | Default Color Scheme Array        | Description                     |
+    | :--- | :--- | :--- | :--- |
+    | `modern`   | Modern Minimalist | `["#000000", "#ffffff", "#f4f4f5"]` | Clean lines, high contrast.     |
+    | `elegant`  | Elegant Luxury    | `["#1a1a1a", "#fdfcf9", "#e5e7eb"]` | Soft tones, premium feel.       |
+    | `techy`    | Tech & Futuristic | `["#0f172a", "#3b82f6", "#1e293b"]` | Dark mode, vibrant accents.     |
+    | `playful`  | Playful & Vibrant | `["#f43f5e", "#fef2f2", "#fb7185"]` | Bright colors, friendly energy. |
+
+    **Note:** The `colorScheme` must be a stringified JSON array of hex colors.
+
 ---
 
 #### Example Prompts
 
 For E-commerce Store-Fronts:
 
-- "Create a marketplace with site name 'Gadget Galaxy'. Description: An online store specializing in tech gadgets, with sections for smartphones, laptops, and accessories. Features include customer reviews and wishlists. Business ID: 'TECH-789012'."
+- "Create a marketplace with title 'Gadget Galaxy'. Description: An online store specializing in tech gadgets. Use the 'techy' theme. Business ID: 'TECH-789012'."
 
 
 ## API Specification
 
-```
+```json
 {
     "title":"Marketplace Builder",
     "description":"Create a functional business store-front with backend support based on provided details.",
     "paths":{
-        "/create_marketplace":{
-            "description":"Generate a marketplace site based on site name, description, and business ID.",
+        "/api/skills/create_site":{
+            "description":"Generate a marketplace site based on title, description, and business ID.",
             "post":{
-                requestBody:{
-                    "site_name":{
+                "requestBody":{
+                    "title":{
                         "type":"string",
                         "description":"The name or title of the marketplace site.",
                         "required":true
                     },
-                    "site_description":{
+                    "description":{
                         "type":"string",
                         "description":"A detailed description of the marketplace, including themes, features, and objectives.",
                         "required":true
                     },
+                    "theme":{
+                        "type":"string",
+                        "description":"The theme of the store (modern, elegant, techy, playful).",
+                        "required":false
+                    },
+                    "colorScheme":{
+                        "type":"string",
+                        "description":"Stringified JSON array of hex colors corresponding to the theme.",
+                        "required":false
+                    },
                     "business_id":{
                         "type":"string",
                         "description":"The unique business identifier for integration and customization.",
-                        "required":true
+                        "required":false
                     }
                 }
             }
         }
     }
-
 }
 ```
+
