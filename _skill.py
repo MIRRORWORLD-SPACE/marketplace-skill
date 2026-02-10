@@ -15,6 +15,7 @@ THEME_COLOR_SCHEMES = {
 
 def create_marketplace(title: str, description: str, business_id: str = None, theme: str = None, color_scheme: str = None):
     try:
+        # Gets the pre-defined colour scheme from theme if colour is not present
         if theme and not color_scheme:
             color_scheme = THEME_COLOR_SCHEMES.get(theme)
 
@@ -28,14 +29,23 @@ def create_marketplace(title: str, description: str, business_id: str = None, th
 
         headers = {"content-type": "application/json"}
 
-        url = f"{os.environ.get('URL')}/api/skills/create_site"
+        url = f"{os.environ.get('MARKETPLACE_URL')}/api/skills/create_site"
 
         response = requests.post(url, json=payload, headers=headers)
 
-        res = response.json()
+        if not response.ok:
+            print(f"Error: Server returned {response.status_code}")
+            print("Response text:", response.text)
+            return {"success": False, "response": f"Server error: {response.status_code}"}
 
-        if response.ok:
-            return {"success": True, "response": "Website will be generated shortly", "site_id": res['data']['site_id']}
+        try:
+            res = response.json()
+        except Exception as e:
+            print("Error parsing JSON response:", e)
+            print("Response text:", response.text)
+            return {"success": False, "response": "Invalid response from server"}
+
+        return {"success": True, "response": "Website will be generated shortly", "site_id": res.get('data', {}).get('site_id')}
     except Exception as e:
         print("Error generating site:", e)
         return {"success": False, "response": str(e)}

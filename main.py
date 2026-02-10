@@ -4,7 +4,6 @@ from pydantic import BaseModel
 import requests
 from typing import Optional
 
-
 app = FastAPI()
 
 class CreateMarketPlace(BaseModel):
@@ -15,16 +14,15 @@ class CreateMarketPlace(BaseModel):
     business_id: Optional[str] = None
 
 
-@app.post("/create_marketplace/")
+@app.post("/create_marketplace")
 async def create_site(request: CreateMarketPlace):
     headers = {
         'accept': 'application/json',
-        'Content-Type': 'application/json',
     }
 
     if request.business_id:
         json_data = {
-            'url': f'http://marketplace-ao.mworld.cloud/sites/{request.business_id}',
+            'url': f'https://marketplace-ao.mworld.cloud/sites/{request.business_id}',
             'name': request.site_name,
             'description': request.site_description,
         }
