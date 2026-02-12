@@ -45,7 +45,10 @@ def create_marketplace(title: str, description: str, business_id: str = None, th
             print("Response text:", response.text)
             return {"success": False, "response": "Invalid response from server"}
 
-        return {"success": True, "response": f"Website with name "{res.get("data").get("store").get("name")}" will be generated shortly on site_url: {res.get("data").get("deployedUrl")}"}
+        return {
+            "success": True,
+            "response": f'Website with name "{res.get("data").get("store").get("name")}" will be generated shortly on site_url: {res.get("data").get("deployedUrl")}'
+        }
     except Exception as e:
         print("Error generating site:", e)
         return {"success": False, "response": str(e)}
