@@ -1,6 +1,6 @@
 # What is the Marketplace Builder Skill?
 
-The Marketplace Builder is an "Instruction-to-Site" tool. It doesn't just create a basic webpage; it generates a fully functional business store-front with backend support, including features like product listings, and order management
+The Marketplace Builder is an "Instruction-to-Site" tool. It creates a full stack Marketplace website. It doesn't just create a basic webpage; it generates a fully functional business store-front with backend support, including features like product listings, and order management
 
 - Customized Setup: Tailored to the provided site name, description, and business ID for seamless integration with existing business systems.
 
